@@ -4,8 +4,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 0,
-      display: false
+      time: null,
+      display: false,
+      id: ""
     };
 
     this.setTime = this.setTime.bind(this);
@@ -18,16 +19,18 @@ class App extends React.Component {
     e.preventDefault();
   }
   decTime() {
-    const tempTime = this.state.time * 1000;
-    this.setState({ time: (tempTime - 1000) / 1000 });
+    const tempTime = this.state.time;
+    this.setState({ time: tempTime - 1 });
+    const curTime = this.state.time;
+    if (curTime === 0) {
+      clearInterval(this.state.id);
+    }
   }
   callDecTime(e) {
     this.setState({ display: true });
-    const id = setInterval(this.decTime, 1000);
-    const curTime = this.state.time;
-    if (curTime < 0) {
-      clearInterval(id);
-    }
+    const tempid = setInterval(this.decTime, 1000);
+    this.setState({ id: tempid });
+
     e.preventDefault();
   }
   render() {
