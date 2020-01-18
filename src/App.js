@@ -14,16 +14,22 @@ class App extends React.Component {
     this.callDecTime = this.callDecTime.bind(this);
   }
   setTime(e) {
-    const setTime = e.target.value;
-    this.setState({ time: setTime });
+    const setTime = +e.target.value;
+
+    // need to edit the code not working as expected
+    if ((!isNaN(setTime) && setTime > 0) || setTime == null) {
+      this.setState({ time: setTime });
+    } else {
+      alert("Enter a valid number");
+    }
     e.preventDefault();
   }
   decTime() {
     const tempTime = this.state.time;
     this.setState({ time: tempTime - 1 });
-    const curTime = this.state.time;
-    if (curTime === 0) {
-      clearInterval(this.state.id);
+    if (this.state.time === 0) {
+      const tempID = this.state.id;
+      clearInterval(tempID);
     }
   }
   callDecTime(e) {
